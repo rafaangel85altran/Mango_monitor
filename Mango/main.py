@@ -35,8 +35,8 @@ client.loop_start()
 
 try:
     while True:
-        humidity = int(getSerialData())
-        #humidity = 1;
+        #humidity = int(getSerialData())
+        humidity = 1;
         print(u"Humidity: {:g}%".format(humidity))
         sensor_data['humidity'] = humidity
 
