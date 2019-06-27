@@ -8,7 +8,7 @@ import serial
 def getSerialData ():
 
     try: 
-        ser = serial.Serial('ttyUSB0', 9600) 
+        ser = serial.Serial('COM1', 9600) 
         serial_line = ser.readline()
     except: 
         print ("Port coudnt be opened")
