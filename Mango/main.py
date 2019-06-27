@@ -9,10 +9,16 @@ import paho.mqtt.client as mqtt
 import json
 from read import getSerialData
 
-THINGSBOARD_HOST = 'demo.thingsboard.io'
-ACCESS_TOKEN = 'DHT22_DEMO_TOKEN'
 
-# Data capture and upload interval in seconds. Less interval will eventually hang the DHT22.
+
+THINGSBOARD_HOST = 'demo.thingsboard.io'
+port = 1883
+username = "Ms8CnTBBIhUvDdEsxs19"
+password=""
+topic="v1/devices/me/telemetry"
+
+
+# Data capture and upload interval in seconds.
 INTERVAL=2
 
 sensor_data = {'humidity': 0}
@@ -22,22 +28,22 @@ next_reading = time.time()
 client = mqtt.Client()
 
 # Set access token
-client.username_pw_set(ACCESS_TOKEN)
+client.username_pw_set(username, password)
 
 # Connect to ThingsBoard using default MQTT port and 60 seconds keepalive interval
-client.connect(THINGSBOARD_HOST, 1883, 60)
+client.connect(THINGSBOARD_HOST, port, 60)
 
 client.loop_start()
 
 try:
     while True:
-        #humidity = getSerialData()
+        #humidity = int(getSerialData())
         humidity = 1;
         print(u"Humidity: {:g}%".format(humidity))
         sensor_data['humidity'] = humidity
 
         # Sending humidity and temperature data to ThingsBoard
-        client.publish('v1/devices/me/telemetry', json.dumps(sensor_data), 1)
+        client.publish(topic, json.dumps(sensor_data), 1)
 
         next_reading += INTERVAL
         sleep_time = next_reading-time.time()
