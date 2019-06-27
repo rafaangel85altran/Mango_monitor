@@ -10,6 +10,12 @@ import json
 from read import getSerialData
 
 
+THINGSBOARD_HOST = 'demo.thingsboard.io'
+port = 1883
+username = "Ms8CnTBBIhUvDdEsxs19"
+password=""
+topic="v1/devices/me/telemetry"
+
 
 THINGSBOARD_HOST = 'demo.thingsboard.io'
 port = 1883
