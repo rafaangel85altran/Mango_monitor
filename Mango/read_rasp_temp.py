@@ -49,4 +49,4 @@ def getRaspTemp():
     # Send the JSON data to InfluxDB
     clientRasp.write_points(data)
     time.sleep(interval)
-    print(iso,"Temperatura" , measure_temp(), "grados")     
+    print(iso,"Temperatura" , measure_temp(), "%")     

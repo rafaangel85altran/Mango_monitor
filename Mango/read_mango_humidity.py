@@ -5,6 +5,7 @@ Created on 4 jul. 2019
 '''
 
 import time
+import re
 #from main import interval
 from influxdb import InfluxDBClient
 from read_serial import getSerialData
@@ -29,8 +30,8 @@ clientMango = InfluxDBClient(host, port, user, password, dbname)
 
 def getMangoHumidity():
     # Data to store
-    raw_data_test = getSerialData()
-    data_test = int(raw_data_test)
+    data_test = int(getSerialData())
+    #data_test = 3
      
     iso = time.ctime()
     data = [
