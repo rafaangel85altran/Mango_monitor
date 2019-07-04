@@ -33,7 +33,7 @@ def getMangoHumidity():
               "room"    : room,
               "place"   : place
           },
-          "time": iso,
+          "time": iso, 
           "fields": {
               "temperature" : data_test
           }
