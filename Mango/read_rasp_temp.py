@@ -5,8 +5,15 @@ Created on 4 jul. 2019
 '''
 import os
 import time
-from main import interval
-from main import client
+from influxdb import InfluxDBClient
+
+# Configure InfluxDB connection variables
+host = "192.168.1.213"                          # Raspberri pi Roja Ip en ZGZ
+port = 8086                                     #default port for InfluxDB
+user = "admin"                                  # the user/password created for influxDB
+password = "emperador" 
+dbname = "telegraf"                             #the database we created earlier
+interval = 5                                    #Sample period in seconds
 
 # think of measurement as a SQL table, it's not...but...
 measurement = "test saw"
@@ -14,6 +21,8 @@ measurement = "test saw"
 location = "ZGZ Boggiero"
 room = "Terraza"
 place = "Raspberry Pi Roja"
+
+clientRasp = InfluxDBClient(host, port, user, password, dbname)
 
 def measure_temp():
         temp = os.popen("vcgencmd measure_temp").readline()
@@ -36,6 +45,6 @@ def getRaspTemp():
       }
     ]
     # Send the JSON data to InfluxDB
-    client.write_points(data)
+    clientRasp.write_points(data)
     time.sleep(interval)
     print("Sending", measure_temp(),"...") 
