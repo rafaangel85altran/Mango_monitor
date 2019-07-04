@@ -39,7 +39,7 @@ def getMangoHumidity():
               "room"    : room,
               "place"   : place
           },
-          "fields": {
+          "fields": { 
               "humedad" : data_test
           }
       }
