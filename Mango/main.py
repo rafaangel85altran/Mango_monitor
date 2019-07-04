@@ -5,55 +5,60 @@ Created on 26 jun. 2019
 '''
 
 import time
-import paho.mqtt.client as mqtt
-import json
-from read import getSerialData
+import sys
+import datetime
+from influxdb import InfluxDBClient
 
-THINGSBOARD_HOST = 'demo.thingsboard.io'
-#THINGSBOARD_HOST = '192.168.1.213'
-port = 1883
-username = "Ms8CnTBBIhUvDdEsxs19"           # Raspberry pi Roja
-password=""
-topic="v1/devices/me/telemetry"
-INTERVAL=2                                  # Data capture and upload interval in seconds.
-sensor_data = {'humidity': 0}
-next_reading = time.time() 
-client = mqtt.Client()
-client.username_pw_set(username, password)  # Set access token
+# Configure InfluxDB connection variables
+host = "192.168.1.213"                          # My Ubuntu NUC
+port = 8086                                     #default port
+user = "admin"                                  # the user/password created for the pi, with write access
+password = "emperador" 
+dbname = "telegraf"                             #the database we created earlier
+interval = 5                                    #Sample period in seconds
 
-# Connect to ThingsBoard using default MQTT port and 60 seconds keepalive interval
-client.connect(THINGSBOARD_HOST, port, 60)
-client.loop_start()
+# Create the InfluxDB client object
+client = InfluxDBClient(host, port, user, password, dbname)
 
-humidity = 1
+# Enter the sensor details
+sensor = 0
+sensor_gpio = 0
 
+# think of measurement as a SQL table, it's not...but...
+measurement = "test saw"
+# location will be used as a grouping tag later
+location = "ZGZ Boggiero"
+
+data_test = 0
+
+# Run until you get a ctrl^c
 try:
     while True:
-        #humidity = int(getSerialData())
-        '''
-        try:
-            humidity = getSerialData()
-            print(u"Humidity: {:g}%".format(humidity))
-            sensor_data['humidity'] = humidity
-            client.publish(topic, json.dumps(sensor_data), 1)   # Sending humidity and temperature data to ThingsBoard
-        except:
-            humidity = None
-            print "Humidity could not be stored"
-        '''
-        humidity += 1
-        if humidity > 10:
-            humidity = 0
-        
-        print(u"Humidity: {:g}%".format(humidity))
-        sensor_data['humidity'] = humidity
-        client.publish(topic, json.dumps(sensor_data), 1)   # Sending humidity and temperature data to ThingsBoard
+        # Read the sensor using the configured driver and gpio
+        data_test = 2 + data_test 
+        iso = time.ctime()
+        # Print for debugging, uncomment the below line
+        # print("[%s] Temp: %s, Humidity: %s" % (iso, temperature, humidity)) 
+        # Create the JSON data structure
+        data = [
+        {
+          "measurement": measurement,
+              "tags": {
+                  "location": location,
+              },
+              "time": iso,
+              "fields": {
+                  "temperature" : data_test
+              }
+          }
+        ]
+        # Send the JSON data to InfluxDB
+        client.write_points(data)
+        # Wait until it's time to query again...
+        time.sleep(interval)
+        if (data_test > 25):
+            data_test = 0
+        print("Sending", data_test,"...")    
             
-        next_reading += INTERVAL
-        sleep_time = next_reading-time.time()
-        if sleep_time > 0:
-            time.sleep(sleep_time)
 except KeyboardInterrupt:
     pass
-
-client.loop_stop()
-client.disconnect()
