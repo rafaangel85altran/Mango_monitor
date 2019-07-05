@@ -1,7 +1,7 @@
 '''
-Created on 26 jun. 2019
+Created on 4 jul. 2019
 
-@author: jrangel
+@author: PC
 '''
 import serial
 
@@ -10,8 +10,9 @@ def getSerialData ():
     try: 
         ser = serial.Serial('/dev/ttyUSB0', 9600) 
         serial_line = ser.readline()
+        #print(int(serial_line))
+        ser.close()
     except: 
         print ("Port coudnt be opened")
-        serial_line = ""
+        #serial_line = ""
     return serial_line
-
