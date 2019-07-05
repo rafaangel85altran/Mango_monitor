@@ -27,9 +27,8 @@ clientRasp = InfluxDBClient(host, port, user, password, dbname)
 
 def measure_temp():
         temp = os.popen("vcgencmd measure_temp").readline()
-        rasp_temp = re.findall(r"[-+]?\d*\.\d+|[-+]?\d+", temp)
-                
-        return (rasp_temp)
+        rasp_temp = re.findall(r"[-+]?\d*\.\d+|[-+]?\d+", temp)       
+        return (rasp_temp[0])
 
 def getRaspTemp():
     iso = time.ctime()              #Store time    
@@ -49,4 +48,4 @@ def getRaspTemp():
     # Send the JSON data to InfluxDB
     clientRasp.write_points(data)
     time.sleep(interval)
-    print(iso,"Temperatura" , measure_temp(), "%")     
+    print(iso,"Temperatura" , measure_temp(), "grados Celsius")     

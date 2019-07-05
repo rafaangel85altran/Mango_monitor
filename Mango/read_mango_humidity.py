@@ -5,8 +5,6 @@ Created on 4 jul. 2019
 '''
 
 import time
-import re
-#from main import interval
 from influxdb import InfluxDBClient
 
 
