@@ -8,6 +8,8 @@ import time
 import re
 #from main import interval
 from influxdb import InfluxDBClient
+
+
 from read_serial import getSerialData
 
 # Configure InfluxDB connection variables
@@ -41,10 +43,10 @@ def getMangoHumidity():
               "location": location,
               "room"    : room,
               "place"   : place 
-          }
+          },
           "fields": { 
               "humedad" : data_test
-          }
+              }
       }
     ]
 
