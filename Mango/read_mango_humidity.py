@@ -52,4 +52,4 @@ def getMangoHumidity():
     clientMango.write_points(data)
     # Wait until it's time to query again...
     time.sleep(interval)
-    print(iso,"Humedad" , data_test, "grados")    
+    print(iso,"Humedad" , data_test, "%")    
