@@ -6,9 +6,8 @@ Created on 4 jul. 2019
 
 import time
 from influxdb import InfluxDBClient
-
-
 from read_serial import getSerialData
+from main import interval
 
 # Configure InfluxDB connection variables
 host = "localhost"                          # Raspberri pi Roja Ip en ZGZ
@@ -16,7 +15,6 @@ port = 8086                                     #default port for InfluxDB
 user = "admin"                                  # the user/password created for influxDB
 password = "emperador" 
 dbname = "telegraf"                             #the database we created earlier
-interval = 5                                    #Sample period in seconds
 
 # think of measurement as a SQL table, it's not...but...
 measurement = "Humedad maceta"

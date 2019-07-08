@@ -8,6 +8,8 @@ import time
 import read_mango_humidity
 import read_rasp_temp
 
+#Sample period in seconds
+interval = 60                                    
 
 #Wait at least 60seconds so the rasp can connect to the Wifi
 
