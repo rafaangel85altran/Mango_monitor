@@ -16,7 +16,7 @@ port = 8086                                     #default port for InfluxDB
 user = "admin"                                  # the user/password created for influxDB
 password = "emperador" 
 dbname = "telegraf"                             #the database we created earlier
-interval = 5                                    #Sample period in seconds
+interval = 60                                    #Sample period in seconds
 
 # think of measurement as a SQL table, it's not...but...
 measurement = "Humedad maceta"
