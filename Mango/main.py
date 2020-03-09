@@ -5,7 +5,7 @@ Created on 26 jun. 2019
 '''
 
 import time
-import read_mango_humidity
+import read_pool_ph
 import read_rasp_temp
 
 #Sample period in seconds
@@ -18,7 +18,7 @@ time.sleep(interval)
 # Run until you get a ctrl^c
 try:
     while True:
-        read_mango_humidity .   getMangoHumidity()
+        read_pool_ph .   getPoolPH()
         read_rasp_temp      .   getRaspTemp()
 except KeyboardInterrupt:
     pass
