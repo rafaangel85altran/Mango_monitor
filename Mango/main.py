@@ -13,7 +13,7 @@ interval = 60
 
 #Wait at least 60seconds so the rasp can connect to the Wifi
 
-time.sleep(60)
+time.sleep(interval)
 
 # Run until you get a ctrl^c
 try:
