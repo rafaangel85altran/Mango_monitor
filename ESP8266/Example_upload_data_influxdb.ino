@@ -81,7 +81,7 @@ void loop() {
   
   // send the packet
   Serial.println("Sending UDP packet...");
-  udp.beginPacket(host, port);
+  udp.beginPacket(host,  );
   udp.print(line);
   udp.endPacket();
 }
