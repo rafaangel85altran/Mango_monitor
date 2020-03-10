@@ -7,7 +7,6 @@ import os
 import re
 import time
 from influxdb import InfluxDBClient
-from main import interval
 
 # Configure InfluxDB connection variables
 host = "localhost"                          # Raspberri pi Roja Ip en ZGZ
@@ -47,5 +46,4 @@ def getRaspTemp():
     ]
     # Send the JSON data to InfluxDB
     clientRasp.write_points(data)
-    time.sleep(interval)
     print(iso,"Temperatura" , measure_temp(), "grados Celsius")     

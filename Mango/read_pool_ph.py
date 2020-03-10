@@ -7,7 +7,6 @@ Created on 4 jul. 2019
 import time
 from influxdb import InfluxDBClient
 from read_serial import getSerialData
-from main import interval
 
 # Configure InfluxDB connection variables
 host = "localhost"                              # Raspberri pi Roja Ip en ZGZ
@@ -48,5 +47,4 @@ def getPoolPH():
     # Send the JSON data to InfluxDB
     clientMango.write_points(data)
     # Wait until it's time to query again...
-    time.sleep(interval)
     print(iso,"pH" , data_received, "%")    

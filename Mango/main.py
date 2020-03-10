@@ -18,7 +18,8 @@ time.sleep(interval)
 # Run until you get a ctrl^c
 try:
     while True:
-        read_pool_ph .   getPoolPH()
-        read_rasp_temp      .   getRaspTemp()
+        read_pool_ph.getPoolPH()
+        read_rasp_temp.getRaspTemp()
+        time.speed(interval)
 except KeyboardInterrupt:
     pass
