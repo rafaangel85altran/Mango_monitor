@@ -14,5 +14,4 @@ def getSerialData ():
         return serial_line
         ser.close()
     except: 
-        print ("Port coudnt be opened")
-        #serial_line = ""
+        print ("/dev/ttyUSB0 couldn´t be opened")
