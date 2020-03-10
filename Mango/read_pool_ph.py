@@ -47,4 +47,4 @@ def getPoolPH():
     # Send the JSON data to InfluxDB
     clientMango.write_points(data)
     # Wait until it's time to query again...
-    print(iso,"pH" , data_received, "%")    
+    print(iso,"pH" , data_received, "pH")    
