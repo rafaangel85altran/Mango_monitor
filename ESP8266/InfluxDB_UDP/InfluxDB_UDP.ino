@@ -1,6 +1,14 @@
-#include <SPI.h>
+#if defined(ESP32)
 #include <WiFiMulti.h>
 WiFiMulti wifiMulti;
+#define DEVICE "ESP32"
+#elif defined(ESP8266)
+#include <ESP8266WiFiMulti.h>
+ESP8266WiFiMulti wifiMulti;
+#define DEVICE "ESP8266"
+#endif
+
+#include <SPI.h>
 #include <WiFiUDP.h>
 #include <DHT.h>
 
