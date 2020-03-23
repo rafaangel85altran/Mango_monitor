@@ -12,9 +12,10 @@ ESP8266WiFiMulti wifiMulti;
 #include <WiFiUDP.h>
 #include <DHT.h>
 
-char ssid[] = "WifiSiTo";             //  your network SSID (name) 
-char pass[] = "2210198531011990";     // your network password
-int status = WL_IDLE_STATUS;          // the Wifi radio's status
+// WiFi AP SSID
+#define WIFI_SSID "WifiSiTo"
+// WiFi password
+#define WIFI_PASSWORD "2210198531011990"
 
 // the IP address of your InfluxDB host
 byte host[] = {192, 168, 1, 212};
