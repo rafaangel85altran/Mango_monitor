@@ -55,9 +55,9 @@ InfluxDBClient client(INFLUXDB_URL, INFLUXDB_DB_NAME);
 DHT dht(DHTPIN, DHTTYPE);
 
 // Data point
-Point sensor1("RSSI");
+//Point sensor1("RSSI");
 Point sensor2("DHT11_Temperatura");
-Point sensor3("DHT11_Humedad");
+//Point sensor3("DHT11_Humedad");
 
 void setup() {
   Serial.begin(115200);
@@ -77,9 +77,9 @@ void setup() {
   client.setConnectionParamsV1(INFLUXDB_URL, INFLUXDB_DB_NAME, INFLUXDB_USER, INFLUXDB_PASSWORD);
 
   // Add constant tags - only once
-  sensor1.addTag("device", DEVICE);
+  //sensor1.addTag("device", DEVICE);
   sensor2.addTag("DHT11_temp", DEVICE);
-  sensor3.addTag("DHT11_hum", DEVICE);
+  //sensor3.addTag("DHT11_hum", DEVICE);
 
   // Check server connection
   if (client.validateConnection()) {
@@ -102,19 +102,19 @@ void loop() {
   Serial.println(" %"); 
 
   // Store measured value into point
-  sensor1.clearFields();
+  //sensor1.clearFields();
   sensor2.clearFields();
-  sensor3.clearFields();
+  //sensor3.clearFields();
   // Report RSSI of currently connected network
-  sensor1.addField("rssi", WiFi.RSSI());
+  //sensor1.addField("rssi", WiFi.RSSI());
   sensor2.addField("Temperatura", dht.readTemperature());
-  sensor3.addField("Humedad", dht.readHumidity());
+  //sensor3.addField("Humedad", dht.readHumidity());
 
   // Print what are we exactly writing
   Serial.print("Writing: ");
-  Serial.println(sensor1.toLineProtocol());
+  //Serial.println(sensor1.toLineProtocol());
   Serial.println(sensor2.toLineProtocol());
-  Serial.println(sensor3.toLineProtocol());
+  //Serial.println(sensor3.toLineProtocol());
   Serial.println("Writing finished");
   // If no Wifi signal, try to reconnect it
   if ((WiFi.RSSI() == 0) && (wifiMulti.run() != WL_CONNECTED))
