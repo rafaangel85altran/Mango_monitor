@@ -17,8 +17,8 @@ WiFiMulti wifiMulti;
 ESP8266WiFiMulti wifiMulti;
 #define DEVICE "ESP8266"
 #endif
-
 #include <InfluxDbClient.h>
+#include <DHT.h>
 
 // WiFi AP SSID
 #define WIFI_SSID "WifiSiTo"
@@ -37,7 +37,10 @@ ESP8266WiFiMulti wifiMulti;
 // InfluxDB v1 database name 
 #define INFLUXDB_DB_NAME "telegraf"
 
+//Usuario Influx
 #define INFLUXDB_USER "admin"
+
+//Password Influx
 #define INFLUXDB_PASSWORD "emperador"
 
 // InfluxDB client instance
@@ -46,7 +49,7 @@ ESP8266WiFiMulti wifiMulti;
 InfluxDBClient client(INFLUXDB_URL, INFLUXDB_DB_NAME);
 
 // Data point
-Point sensor("wifi_status");
+Point sensor("Temperatura y humedad");
 
 void setup() {
   Serial.begin(115200);
@@ -66,7 +69,6 @@ void setup() {
 
   // Add constant tags - only once
   sensor.addTag("device", DEVICE);
-  sensor.addTag("SSID", WiFi.SSID());
 
   // Check server connection
   if (client.validateConnection()) {
@@ -77,12 +79,12 @@ void setup() {
     Serial.println(client.getLastErrorMessage());
   }
 }
-
+  
 void loop() {
   // Store measured value into point
   sensor.clearFields();
   // Report RSSI of currently connected network
-  sensor.addField("rssi", WiFi.RSSI());
+  sensor.addField("Temperatura", "mete aqui Temperatura");
   // Print what are we exactly writing
   Serial.print("Writing: ");
   Serial.println(sensor.toLineProtocol());
