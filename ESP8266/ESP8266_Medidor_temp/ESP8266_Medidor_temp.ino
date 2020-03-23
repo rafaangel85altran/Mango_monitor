@@ -110,8 +110,10 @@ void loop() {
   sensor3.clearFields();
   // Report RSSI of currently connected network
   sensor1.addField("rssi", WiFi.RSSI());
-  sensor2.addField("Temperatura", T);
-  sensor3.addField("Humedad", H);
+  sensor2.addField("Temperatura");
+  sensor2.addField(T);
+  sensor3.addField("Humedad");
+  sensor3.addField(H);
 
   // Print what are we exactly writing
   Serial.println("Writing: ");
