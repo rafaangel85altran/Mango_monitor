@@ -1,5 +1,6 @@
 #include <SPI.h>
 #include <WiFiMulti.h>
+WiFiMulti wifiMulti;
 #include <WiFiUDP.h>
 #include <DHT.h>
 
