@@ -77,7 +77,9 @@ void setup() {
   client.setConnectionParamsV1(INFLUXDB_URL, INFLUXDB_DB_NAME, INFLUXDB_USER, INFLUXDB_PASSWORD);
 
   // Add constant tags - only once
-  sensor.addTag("device", DEVICE);
+  sensor1.addTag("device", DEVICE);
+  sensor2.addTag("DHT11_temp", DEVICE);
+  sensor3.addTag("DHT11_hum", DEVICE);
 
   // Check server connection
   if (client.validateConnection()) {
@@ -113,12 +115,15 @@ void loop() {
 
   // Print what are we exactly writing
   Serial.print("Writing: ");
-  Serial.println(sensor.toLineProtocol());
+  Serial.println(sensor1.toLineProtocol());
+  Serial.println(sensor2.toLineProtocol());
+  Serial.println(sensor3.toLineProtocol());
+  Serial.print("Writing finished");
   // If no Wifi signal, try to reconnect it
   if ((WiFi.RSSI() == 0) && (wifiMulti.run() != WL_CONNECTED))
     Serial.println("Wifi connection lost");
   // Write point
-  if (!client.writePoint(sensor)) {
+  if (!client.writePoint(sensor1)) {
     Serial.print("InfluxDB write failed: ");
     Serial.println(client.getLastErrorMessage());
   }
