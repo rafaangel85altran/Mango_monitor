@@ -48,6 +48,10 @@ ESP8266WiFiMulti wifiMulti;
 // InfluxDB client instance for InfluxDB 1
 InfluxDBClient client(INFLUXDB_URL, INFLUXDB_DB_NAME);
 
+#define DHTPIN 2     // Vamos a probar con GPIO2
+
+#define DHTTYPE    DHT11     // DHT 11
+
 // Data point
 Point sensor("Temperatura y humedad");
 
@@ -81,10 +85,16 @@ void setup() {
 }
   
 void loop() {
+
+  float Temp = dht.readTemperature();
+  float Humd = dht.readHumidity();
+
   // Store measured value into point
   sensor.clearFields();
   // Report RSSI of currently connected network
-  sensor.addField("Temperatura", "mete aqui Temperatura");
+  sensor.addField("Temperatura", Temp);
+  sensor.addField("Humedad", Humd);
+  sensor.addField("rssi", WiFi.RSSI());
   // Print what are we exactly writing
   Serial.print("Writing: ");
   Serial.println(sensor.toLineProtocol());
