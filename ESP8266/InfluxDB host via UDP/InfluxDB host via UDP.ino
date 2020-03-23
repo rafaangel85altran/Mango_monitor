@@ -1,22 +1,27 @@
 #include <SPI.h>
 #include <WiFi.h>
 #include <WiFiUDP.h>
+#include <DHT.h>
 
-char ssid[] = "your network name";     //  your network SSID (name) 
-char pass[] = "network password";    // your network password
-int status = WL_IDLE_STATUS;     // the Wifi radio's status
+char ssid[] = "WifiSiTo";             //  your network SSID (name) 
+char pass[] = "2210198531011990";     // your network password
+int status = WL_IDLE_STATUS;          // the Wifi radio's status
 
 // the IP address of your InfluxDB host
-byte host[] = {10, 0, 1, 11};
+byte host[] = {192, 168, 1, 212};
 
 // the port that the InfluxDB UDP plugin is listening on
-int port = 8888;
+int port = 8086;
 
 WiFiUDP udp;
 
+#define DHTPIN 2     // Vamos a probar con GPIO2
+#define DHTTYPE    DHT11     // DHT 1
+
 void setup() {
   // initialize serial port
-  Serial.begin(9600);
+  Serial.begin(115200);
+  dht.begin();
 
   // attempt to connect using WPA2 encryption
   Serial.println("Attempting to connect to WPA network...");
@@ -43,23 +48,6 @@ void setup() {
   }
 }
 
-float getTemperature() {
-  // get the reading from the temperature sensor
-  int reading = analogRead(0);
- 
-  // convert that reading to voltage
-  float voltage = reading * 5.0;
-  voltage /= 1024.0; 
- 
-  // convert the voltage to temperature in Celsius (10mV per degree + 500mV offset)
-  float temperatureC = (voltage - 0.5) * 100 ;  
-  
-  // now convert to Fahrenheit
-  float temperatureF = (temperatureC * 9.0 / 5.0) + 32.0;
-
-  return temperatureF;
-}
-
 void loop() {
   String line, temperature;
 
@@ -67,7 +55,7 @@ void loop() {
   delay(1000);
   
   // get the current temperature from the sensor, to 2 decimal places
-  temperature = String(getTemperature(), 2);
+  temperature = String(dht.readTemperature(), 2);
 
   // concatenate the temperature into the line protocol
   line = String("temperature value=" + temperature);
