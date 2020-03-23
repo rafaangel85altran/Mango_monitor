@@ -25,17 +25,17 @@ void setup() {
   Serial.begin(115200);
   dht.begin();
 
-  // attempt to connect using WPA2 encryption
-  Serial.println("Attempting to connect to WPA network...");
-  status = WiFi.begin(ssid, pass);
+// Connect WiFi
+  Serial.println("Connecting to WiFi");
+  WiFi.mode(WIFI_STA);
+  wifiMulti.addAP(WIFI_SSID, WIFI_PASSWORD);
+  while (wifiMulti.run() != WL_CONNECTED) {
+    Serial.print(".");
+    delay(100);
+  }
 
-  // if unable to connect, halt
-  if ( status != WL_CONNECTED) { 
-    Serial.println("Couldn't get a WiFi connection");
-    while(true);
-  } 
-  // if the conneciton succeeded, print network info
-  else {
+  if (wifiMulti.run() == WL_CONNECTED)
+  {
     Serial.println("Connected to network");
     // print your WiFi shield's IP address:
     IPAddress ip = WiFi.localIP();
@@ -48,6 +48,8 @@ void setup() {
     Serial.print(rssi);
     Serial.println(" dBm");
   }
+
+  Serial.println();
 }
 
 void loop() {
