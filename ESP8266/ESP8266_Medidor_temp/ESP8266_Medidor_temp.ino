@@ -94,11 +94,11 @@ void setup() {
 void loop() {
 
   Serial.print("Temperatura: ");
-  Serial.print(Temp);
+  Serial.print(dht.readTemperature());
   Serial.println(" ºC");
 
   Serial.print("Humedad: ");
-  Serial.print(Humd);
+  Serial.print(dht.readHumidity());
   Serial.println(" %"); 
 
   // Store measured value into point
