@@ -18,6 +18,8 @@ WiFiUDP udp;
 #define DHTPIN 2     // Vamos a probar con GPIO2
 #define DHTTYPE    DHT11     // DHT 1
 
+DHT dht(DHTPIN, DHTTYPE);
+
 void setup() {
   // initialize serial port
   Serial.begin(115200);
