@@ -101,8 +101,8 @@ void loop() {
   Serial.print(dht.readHumidity());
   Serial.println(" %"); */
 
-  int T = dht.readTemperature();
-  int H = dht.readHumidity();
+  float T = dht.readTemperature();
+  float H = dht.readHumidity();
 
   // Store measured value into point
   sensor1.clearFields();
