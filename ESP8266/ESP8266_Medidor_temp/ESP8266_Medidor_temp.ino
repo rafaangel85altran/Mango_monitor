@@ -56,8 +56,8 @@ DHT dht(DHTPIN, DHTTYPE);
 
 // Data point
 Point sensor1("RSSI");
-Point sensor2("DHT11_Temperatura");
-Point sensor3("DHT11_Humedad");
+Point sensor2("DHT11_T");
+Point sensor3("DHT11_H");
 
 void setup() {
   Serial.begin(115200);
@@ -93,13 +93,16 @@ void setup() {
   
 void loop() {
 
-  Serial.print("Temperatura: ");
+  /*Serial.print("Temperatura: ");
   Serial.print(dht.readTemperature());
   Serial.println(" ºC");
 
   Serial.print("Humedad: ");
   Serial.print(dht.readHumidity());
-  Serial.println(" %"); 
+  Serial.println(" %"); */
+
+  float T = dht.readTemperature();
+  float H = dht.readHumidity();
 
   // Store measured value into point
   sensor1.clearFields();
@@ -107,8 +110,8 @@ void loop() {
   sensor3.clearFields();
   // Report RSSI of currently connected network
   sensor1.addField("rssi", WiFi.RSSI());
-  sensor2.addField("Temperatura", dht.readTemperature());
-  sensor3.addField("Humedad", dht.readHumidity());
+  sensor2.addField("Temperatura", T);
+  sensor3.addField("Humedad", H);
 
   // Print what are we exactly writing
   Serial.println("Writing: ");
