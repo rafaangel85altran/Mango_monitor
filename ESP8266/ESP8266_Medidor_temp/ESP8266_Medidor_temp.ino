@@ -93,9 +93,6 @@ void setup() {
   
 void loop() {
 
-  float Temp = dht.readTemperature();
-  float Humd = dht.readHumidity();
-
   Serial.print("Temperatura: ");
   Serial.print(Temp);
   Serial.println(" ºC");
@@ -110,8 +107,8 @@ void loop() {
   sensor3.clearFields();
   // Report RSSI of currently connected network
   sensor1.addField("rssi", WiFi.RSSI());
-  sensor2.addField("Temperatura", Temp);
-  sensor3.addField("Humedad", Humd);
+  sensor2.addField("Temperatura", dht.readTemperature());
+  sensor3.addField("Humedad", dht.readHumidity());
 
   // Print what are we exactly writing
   Serial.print("Writing: ");
