@@ -55,7 +55,9 @@ InfluxDBClient client(INFLUXDB_URL, INFLUXDB_DB_NAME);
 DHT dht(DHTPIN, DHTTYPE);
 
 // Data point
-Point sensor("Temperatura_humedad");
+Point sensor1("RSSI");
+Point sensor2("Temperatura");
+Point sensor3("Humedad");
 
 void setup() {
   Serial.begin(115200);
@@ -94,20 +96,20 @@ void loop() {
 
   Serial.print("Temperatura: ");
   Serial.print(Temp);
-  Serial.print(" ºC");
+  Serial.println(" ºC");
 
   Serial.print("Humedad: ");
   Serial.print(Humd);
-  Serial.print(" %"); 
+  Serial.println(" %"); 
 
   // Store measured value into point
-  sensor.clearFields();
+  sensor1.clearFields();
+  sensor2.clearFields();
+  sensor3.clearFields();
   // Report RSSI of currently connected network
-  sensor.addField("Temperatura", Temp);
-  sensor.clearFields();
-  sensor.addField("Humedad", Humd);
-  sensor.clearFields();
-  sensor.addField("rssi", WiFi.RSSI());
+  sensor1.addField("rssi", WiFi.RSSI());
+  sensor2.addField("Temperatura", Temp);
+  sensor3.addField("Humedad", Humd);
 
   // Print what are we exactly writing
   Serial.print("Writing: ");
