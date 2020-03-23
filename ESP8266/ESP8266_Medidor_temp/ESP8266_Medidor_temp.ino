@@ -78,8 +78,8 @@ void setup() {
 
   // Add constant tags - only once
   sensor1.addTag("device", DEVICE);
-  sensor2.addTag("DHT11_temp", DEVICE);
-  sensor3.addTag("DHT11_hum", DEVICE);
+  sensor2.addTag("device", DEVICE);
+  sensor3.addTag("device", DEVICE);
 
   // Check server connection
   if (client.validateConnection()) {
@@ -108,10 +108,10 @@ void loop() {
   // Report RSSI of currently connected network
   sensor1.addField("rssi", WiFi.RSSI());
   sensor2.addField("Temperatura", dht.readTemperature());
-  //sensor3.addField("Humedad", dht.readHumidity());
+  sensor3.addField("Humedad", dht.readHumidity());
 
   // Print what are we exactly writing
-  Serial.print("Writing: ");
+  Serial.println("Writing: ");
   Serial.println(sensor1.toLineProtocol());
   Serial.println(sensor2.toLineProtocol());
   Serial.println(sensor3.toLineProtocol());
