@@ -59,6 +59,9 @@ void loop() {
   // get the current temperature from the sensor, to 2 decimal places
   temperature = String(dht.readTemperature(), 2);
 
+  Serial.print("Temp = ");
+  Serial.println(temperature);
+
   // concatenate the temperature into the line protocol
   line = String("temperature value=" + temperature);
   Serial.println(line);
