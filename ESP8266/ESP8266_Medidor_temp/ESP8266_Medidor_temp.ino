@@ -56,8 +56,8 @@ DHT dht(DHTPIN, DHTTYPE);
 
 // Data point
 Point sensor1("RSSI");
-Point sensor2("Temperatura");
-Point sensor3("Humedad");
+Point sensor2("DHT11_Temperatura");
+Point sensor3("DHT11_Humedad");
 
 void setup() {
   Serial.begin(115200);
@@ -115,7 +115,7 @@ void loop() {
   Serial.println(sensor1.toLineProtocol());
   Serial.println(sensor2.toLineProtocol());
   Serial.println(sensor3.toLineProtocol());
-  Serial.print("Writing finished");
+  Serial.println("Writing finished");
   // If no Wifi signal, try to reconnect it
   if ((WiFi.RSSI() == 0) && (wifiMulti.run() != WL_CONNECTED))
     Serial.println("Wifi connection lost");
