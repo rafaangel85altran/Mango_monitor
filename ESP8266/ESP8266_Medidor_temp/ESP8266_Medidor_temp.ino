@@ -52,11 +52,14 @@ InfluxDBClient client(INFLUXDB_URL, INFLUXDB_DB_NAME);
 
 #define DHTTYPE    DHT11     // DHT 11
 
+DHT dht(DHTPIN, DHTTYPE);
+
 // Data point
 Point sensor("Temperatura y humedad");
 
 void setup() {
   Serial.begin(115200);
+  dht.begin();
 
   // Connect WiFi
   Serial.println("Connecting to WiFi");
