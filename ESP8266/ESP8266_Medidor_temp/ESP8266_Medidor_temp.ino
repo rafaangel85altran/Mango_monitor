@@ -47,7 +47,8 @@ ESP8266WiFiMulti wifiMulti;
 InfluxDBClient client(INFLUXDB_URL, INFLUXDB_DB_NAME);
 
 #define DHTPIN 2     // Vamos a probar con GPIO2
--DHT dht(DHTPIN, DHTTYPE);
+#define DHTTYPE DHT11
+DHT dht(DHTPIN, DHTTYPE);
 
 // Data point
 Point sensor("wifi_status");
