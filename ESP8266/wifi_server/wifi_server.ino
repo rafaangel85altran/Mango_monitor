@@ -8,12 +8,12 @@
 #include <ESP8266WiFi.h>
 
 byte ledPin = 2;
-char ssid[] = "**********";               // SSID of your home WiFi
-char pass[] = "**********";               // password of your home WiFi
+char ssid[] = "WifiSiTo";               // SSID of your home WiFi
+char pass[] = "2210198531011990";               // password of your home WiFi
 WiFiServer server(80);                    
 
-IPAddress ip(192, 168, 0, 80);            // IP address of the server
-IPAddress gateway(192,168,0,1);           // gateway of your network
+IPAddress ip(192, 168, 1, 240);            // IP address of the server
+IPAddress gateway(192,168,1,5);           // gateway of your network
 IPAddress subnet(255,255,255,0);          // subnet mask of your network
 
 void setup() {
@@ -25,14 +25,14 @@ void setup() {
     delay(500);
   }
   server.begin();                         // starts the server
-/*  Serial.println("Connected to wifi");
+  Serial.println("Connected to wifi");
   Serial.print("Status: "); Serial.println(WiFi.status());  // some parameters from the network
   Serial.print("IP: ");     Serial.println(WiFi.localIP());
   Serial.print("Subnet: "); Serial.println(WiFi.subnetMask());
   Serial.print("Gateway: "); Serial.println(WiFi.gatewayIP());
   Serial.print("SSID: "); Serial.println(WiFi.SSID());
   Serial.print("Signal: "); Serial.println(WiFi.RSSI());
-  Serial.print("Networks: "); Serial.println(WiFi.scanNetworks());*/
+  Serial.print("Networks: "); Serial.println(WiFi.scanNetworks());
   pinMode(ledPin, OUTPUT);
 }
 
