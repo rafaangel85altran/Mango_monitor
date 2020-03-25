@@ -19,6 +19,7 @@ ESP8266WiFiMulti wifiMulti;
 #endif
 
 #include <InfluxDbClient.h>
+#include <DHT.h>
 
 // WiFi AP SSID
 #define WIFI_SSID "WifiSiTo"
@@ -45,11 +46,15 @@ ESP8266WiFiMulti wifiMulti;
 // InfluxDB client instance for InfluxDB 1
 InfluxDBClient client(INFLUXDB_URL, INFLUXDB_DB_NAME);
 
+#define DHTPIN 2     // Vamos a probar con GPIO2
+-DHT dht(DHTPIN, DHTTYPE);
+
 // Data point
 Point sensor("wifi_status");
 
 void setup() {
   Serial.begin(115200);
+  dht.begin();
 
   // Connect WiFi
   Serial.println("Connecting to WiFi");
@@ -94,6 +99,14 @@ void loop() {
     Serial.print("InfluxDB write failed: ");
     Serial.println(client.getLastErrorMessage());
   }
+
+  Serial.print("Temperatura: ");
+  Serial.print(dht.readTemperature());
+  Serial.println(" ºC");
+
+  Serial.print("Humedad: ");
+  Serial.print(dht.readHumidity());
+  Serial.println(" %");
 
   //Wait 10s
   Serial.println("Wait 10s");
