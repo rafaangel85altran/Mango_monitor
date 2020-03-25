@@ -51,7 +51,7 @@ InfluxDBClient client(INFLUXDB_URL, INFLUXDB_DB_NAME);
 DHT dht(DHTPIN, DHTTYPE);
 
 // Data point
-Point sensor("wifi_status");
+Point sensor("DHT11");
 
 void setup() {
   Serial.begin(115200);
@@ -85,10 +85,13 @@ void setup() {
 }
 
 void loop() {
+
+  int Temp_int = (int) dht.readTemperature();
+  
   // Store measured value into point
   sensor.clearFields();
   // Report RSSI of currently connected network
-  sensor.addField("rssi", WiFi.RSSI());
+  sensor.addField("Temperatura", Temp_int);
   // Print what are we exactly writing
   Serial.print("Writing: ");
   Serial.println(sensor.toLineProtocol());
@@ -100,6 +103,11 @@ void loop() {
     Serial.print("InfluxDB write failed: ");
     Serial.println(client.getLastErrorMessage());
   }
+
+
+  Serial.print("Temperatura_int: ");
+  Serial.print(Temp_int);
+  Serial.println(" ºC");
 
   Serial.print("Temperatura: ");
   Serial.print(dht.readTemperature());
