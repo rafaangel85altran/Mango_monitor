@@ -17,8 +17,8 @@ WiFiMulti wifiMulti;
 ESP8266WiFiMulti wifiMulti;
 #define DEVICE "ESP8266"
 #endif
+
 #include <InfluxDbClient.h>
-#include <DHT.h>
 
 // WiFi AP SSID
 #define WIFI_SSID "WifiSiTo"
@@ -37,10 +37,7 @@ ESP8266WiFiMulti wifiMulti;
 // InfluxDB v1 database name 
 #define INFLUXDB_DB_NAME "telegraf"
 
-//Usuario Influx
 #define INFLUXDB_USER "admin"
-
-//Password Influx
 #define INFLUXDB_PASSWORD "emperador"
 
 // InfluxDB client instance
@@ -48,20 +45,11 @@ ESP8266WiFiMulti wifiMulti;
 // InfluxDB client instance for InfluxDB 1
 InfluxDBClient client(INFLUXDB_URL, INFLUXDB_DB_NAME);
 
-#define DHTPIN 2     // Vamos a probar con GPIO2
-
-#define DHTTYPE    DHT11     // DHT 11
-
-DHT dht(DHTPIN, DHTTYPE);
-
 // Data point
-Point sensor1("RSSI");
-Point sensor2("DHT11_T");
-Point sensor3("DHT11_H");
+Point sensor("wifi_status");
 
 void setup() {
   Serial.begin(115200);
-  dht.begin();
 
   // Connect WiFi
   Serial.println("Connecting to WiFi");
@@ -77,9 +65,8 @@ void setup() {
   client.setConnectionParamsV1(INFLUXDB_URL, INFLUXDB_DB_NAME, INFLUXDB_USER, INFLUXDB_PASSWORD);
 
   // Add constant tags - only once
-  sensor1.addTag("device", DEVICE);
-  sensor2.addTag("device", DEVICE);
-  sensor3.addTag("device", DEVICE);
+  sensor.addTag("device", DEVICE);
+  sensor.addTag("SSID", WiFi.SSID());
 
   // Check server connection
   if (client.validateConnection()) {
@@ -90,40 +77,20 @@ void setup() {
     Serial.println(client.getLastErrorMessage());
   }
 }
-  
+
 void loop() {
-
-  /*Serial.print("Temperatura: ");
-  Serial.print(dht.readTemperature());
-  Serial.println(" ºC");
-
-  Serial.print("Humedad: ");
-  Serial.print(dht.readHumidity());
-  Serial.println(" %"); */
-
-  float Temp_float = dht.readTemperature();
-  float Humid_float = dht.readHumidity();
-
   // Store measured value into point
-  sensor1.clearFields();
-  sensor2.clearFields();
-  sensor3.clearFields();
+  sensor.clearFields();
   // Report RSSI of currently connected network
-  sensor1.addField("rssi", WiFi.RSSI());
-  sensor2.addField("Temperatura", (int) Temp_float);
-  sensor3.addField("Humedad", (int) Humid_float);
-
+  sensor.addField("rssi", WiFi.RSSI());
   // Print what are we exactly writing
-  Serial.println("Writing: ");
-  Serial.println(sensor1.toLineProtocol());
-  Serial.println(sensor2.toLineProtocol());
-  Serial.println(sensor3.toLineProtocol());
-  Serial.println("Writing finished");
+  Serial.print("Writing: ");
+  Serial.println(sensor.toLineProtocol());
   // If no Wifi signal, try to reconnect it
   if ((WiFi.RSSI() == 0) && (wifiMulti.run() != WL_CONNECTED))
     Serial.println("Wifi connection lost");
   // Write point
-  if (!client.writePoint(sensor1)) {
+  if (!client.writePoint(sensor)) {
     Serial.print("InfluxDB write failed: ");
     Serial.println(client.getLastErrorMessage());
   }
