@@ -21,6 +21,9 @@ ESP8266WiFiMulti wifiMulti;
 #include <InfluxDbClient.h>
 #include <DHT.h>
 
+#include <SPI.h>
+#include <ESP8266WiFi.h>
+
 // WiFi AP SSID
 #define WIFI_SSID "WifiSiTo"
 // WiFi password
@@ -53,6 +56,14 @@ DHT dht(DHTPIN, DHTTYPE);
 // Data point
 Point sensor("DHT11_Temp");
 
+char ssid[] = "WifiSiTo";           		 // SSID of your home WiFi
+char pass[] = "2210198531011990";            // password of your home WiFi
+
+unsigned long askTimer = 0;
+
+IPAddress server(192,168,1,240);       // the fix IP address of the server
+WiFiClient client;
+
 void setup() {
   Serial.begin(115200);
   dht.begin();
@@ -82,6 +93,22 @@ void setup() {
     Serial.print("InfluxDB connection failed: ");
     Serial.println(client.getLastErrorMessage());
   }
+
+    WiFi.begin(ssid, pass);             // connects to the WiFi router
+  while (WiFi.status() != WL_CONNECTED) {
+    Serial.print(".");
+    delay(500);
+  }
+  Serial.println("Connected to wifi");
+  Serial.print("Status: "); Serial.println(WiFi.status());    // Network parameters
+  Serial.print("IP: ");     Serial.println(WiFi.localIP());
+  Serial.print("Subnet: "); Serial.println(WiFi.subnetMask());
+  Serial.print("Gateway: "); Serial.println(WiFi.gatewayIP());
+  Serial.print("SSID: "); Serial.println(WiFi.SSID());
+  Serial.print("Signal: "); Serial.println(WiFi.RSSI());
+  pinMode(ledPin, OUTPUT);
+
+
 }
 
 void loop() {
@@ -111,6 +138,14 @@ void loop() {
   Serial.print("Humedad: ");
   Serial.print(dht.readHumidity());
   Serial.println(" %");
+
+  client.connect(server, 80);   // Connection to the server
+  digitalWrite(ledPin, LOW);    // to show the communication only (inverted logic)
+  Serial.println(".");
+  client.print(Temp_int);  // sends the message to the server
+  String answer = client.readStringUntil('\r');   // receives the answer from the sever
+  Serial.println("from server: " + answer);
+  client.flush();
 
   //Wait 10s
   Serial.println("Wait 10s");
